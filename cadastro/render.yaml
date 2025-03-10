@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: cadastro-api
+    env: docker
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/cadastro-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://aws-0-us-west-1.pooler.supabase.com:5432/postgres
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres.yuzrtifetzmosufelhtr
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: King@612
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod

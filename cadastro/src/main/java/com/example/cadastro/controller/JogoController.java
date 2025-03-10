@@ -1,7 +1,7 @@
 package com.example.cadastro.controller;
 
-import com.example.cadastro.model.Usuario;
-import com.example.cadastro.service.UsuarioService;
+import com.example.cadastro.model.Jogo;
+import com.example.cadastro.service.JogoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,29 +10,34 @@ import org.springframework.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-  
-@RestController
-@RequestMapping("/usuarios")
-public class UsuarioController {
-    private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+@RestController
+@RequestMapping("/jogos")
+public class JogoController {
+    private final JogoService jogoService;
+
+    public JogoController(JogoService jogoService) {
+        this.jogoService = jogoService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios() {
-        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    public ResponseEntity<List<Jogo>> listarJogos() {
+        return ResponseEntity.ok(jogoService.listarJogos());
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.criarUsuario(usuario));
+    public ResponseEntity<Jogo> criarJogo(@Valid @RequestBody Jogo jogo) {
+        return ResponseEntity.ok(jogoService.criarJogo(jogo));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Jogo> atualizarJogo(@PathVariable Long id, @Valid @RequestBody Jogo jogo) {
+        return ResponseEntity.ok(jogoService.atualizarJogo(id, jogo));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
-        usuarioService.deletarUsuario(id);
+    public ResponseEntity<Void> deletarJogo(@PathVariable Long id) {
+        jogoService.deletarJogo(id);
         return ResponseEntity.ok().build();
     }
 
@@ -49,6 +54,6 @@ public class UsuarioController {
     public ResponseEntity<Map<String, String>> handleGeneralExceptions(Exception ex) {
         Map<String, String> error = new HashMap<>();
         error.put("erro", "Erro ao processar a requisição: " + ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-}
+} 
